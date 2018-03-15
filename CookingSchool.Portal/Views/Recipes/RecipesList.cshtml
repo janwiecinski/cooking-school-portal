@@ -1,0 +1,74 @@
+﻿@model CookingSchool.Portal.Models.PaginationViewModel
+@{
+    ViewBag.Title = "Przepisy";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div  class="panel-default">
+    <div class="panel-heading">OSTATNIO DODANE PRZEPISY</div>
+    <div class="panel-body">
+        <div  class="list-group">
+            <ul style="list-style:none">
+                @foreach (var item in Model.Items)
+                {
+                    <li>@Html.Partial("_Recipe", item)</li>
+                }
+            </ul>
+
+            @if (Model.Pager.EndPage > 1)
+            {
+                <ul class="pagination">
+                    @if (Model.Pager.CurrentPage > 1)
+                    {
+                        <li>
+                            <a href="~/Recipes/RecipesList">First</a>
+                        </li>
+                        <li>
+                            <a href="~/Recipes/RecipesList?page=@(Model.Pager.CurrentPage -1)">Previous</a>
+                        </li>
+                    }
+                    @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                {
+                        <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                            <a href="~/Recipes/RecipesList?page=@page">@page</a>
+                        </li>
+                    }
+                    @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                {
+                        <li>
+                            <a href="~/Recipes/RecipesList?page=@(Model.Pager.CurrentPage + 1)">Next</a>
+                        </li>
+                        <li>
+                            <a href="~/Recipes/RecipesList?page=@(Model.Pager.TotalPages)">Last</a>
+                        </li>
+                    }
+                </ul>
+
+            }
+         
+
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".recipe-date").each(function () {
+                
+                        var format = 'DD.MM.YYYY HH:mm:ss';
+                        var utcTime = moment.utc($(this).text()).toDate();
+                        var local = moment(utcTime).local().format(format);
+                        $(this).text(local);
+                       
+
+            })
+        });
+
+    </script>
+}
+

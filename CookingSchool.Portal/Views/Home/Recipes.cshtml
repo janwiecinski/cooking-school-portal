@@ -1,0 +1,38 @@
+﻿@model List<CookingSchool.Models.RecipeViewModel>
+
+@{
+    ViewBag.Title = "Przepisy";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div  class="panel-default">
+    <div class="panel-heading">OSTATNIO DODANE PRZEPISY</div>
+    <div class="panel-body">
+        <div  class="list-group">
+            @foreach (var item in Model)
+            {
+                @Html.Partial("_Recipe", item)
+            }
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".recipe-date").each(function () {
+                
+                        var format = 'DD.MM.YYYY HH:mm:ss';
+                        var utcTime = moment.utc($(this).text()).toDate();
+                        var local = moment(utcTime).local().format(format);
+                        $(this).text(local);
+                       
+
+            })
+        });
+
+    </script>
+}
+

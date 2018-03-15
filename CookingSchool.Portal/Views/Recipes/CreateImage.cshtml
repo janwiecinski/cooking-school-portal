@@ -1,0 +1,97 @@
+﻿@model CookingSchool.Models.RecipeViewModel
+
+@{
+    ViewBag.Title = "CreateImage";
+}
+
+<h2>CreateImage</h2>
+@using (Html.BeginForm())
+{
+    <form id="myForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="file" id="uploadImg" name="imgFile" multiple />
+            <input type="button" value="LOAD" id="btnUploadImg" />
+        </div>
+
+        <div class="form-group">
+            <label id="ImgId"></label>
+        </div>
+        
+        <div class="col-md-2 thumbnail" id="uploadedImage">
+
+        </div>
+
+        <div class="form-group">
+
+            <div class="col-md-offset-2 col-md-10">
+
+                <input type="submit" id="BtnPrevious"  name="BtnPrevious" value="Previous" class="btn btn-default" />
+
+                <input type="submit" id="BtnFinish" name="BtnNext" value="Finish" class="btn btn-default" />
+
+            </div>
+
+        </div>
+    </form>
+}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var passTitle = sessionStorage.getItem("title");
+        var passDescription = sessionStorage.getItem("description");
+        var passMealType = parseInt(sessionStorage.getItem("mealType"));
+        var passAuthor = sessionStorage.getItem("author");
+        var data;
+        $('#btnUploadImg').click(function () {
+
+            var formData = new FormData();
+            $.each($('#uploadImg')[0].files, function (i, file) {
+                formData.append('file-' + i, file);
+            });
+            var baseUrl = '@Url.Content("~/")';
+            $.ajax({
+                type: 'POST',
+                url:"@Url.Action("","images")",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    $('#ImgId').html(response.Id);
+                    $('#uploadedImage').append('<img src="@Url.Action("","images")/' + response.Id + '/thumbnail/?id=' + response.Id + '&width=120&height=120"/>');
+                    sessionStorage.clear();
+                    data = { Title: passTitle, Description: passDescription, Author: passAuthor, MealTypeId: passMealType, ImageId: response.Id };
+                }
+
+            });
+
+            return false;
+        });
+
+        $('#BtnPrevious').click(function () {
+            document.location = '@Url.Action("Create", "recipes", Model)';
+            return false;
+        });
+
+        $('#BtnFinish').click(function () {
+
+            $.ajax({
+                method: 'POST',
+                url: '@Url.Action("CreateImage", "recipes")',
+                data: data,
+                success: function (res) {
+                    console.log("Recipe has been added");
+                },
+                error: function (jqXHR, textStatuse, errorThrown) {
+                    console.log("jqXHR.status");
+                    console.log(jqXHR.status);
+                    console.log("errorThrown");
+                    console.log(jqXHR.status);
+                }
+            });
+
+            window.location.href = '@Url.Action("RecipesList","recipes")';
+            return false;
+        });
+    });
+
+</script>

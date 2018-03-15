@@ -1,0 +1,113 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("Scripts", false)
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+</head>
+<body>
+
+    <div class="background">
+            <nav class="nav navbar-inverse col-md-10" id="navbarMenu">
+                <div class="navbar-header col-md-3">
+                    <img alt="LogoStrony" id="logoID" src="~/image/illustration-gastronomy.png" />
+                    <span>@Html.ActionLink("KURS GOTOWANIA", "Index", "Home")</span>
+                </div>
+                <ul class="nav navbar-nav col-md-7">
+                    <li>@Html.ActionLink("PRZEPISY", "RecipesList", "recipes")</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                    }
+                    <li>@Html.ActionLink("DODAJ", "Create", "recipes")</li>
+                    <li>@Html.ActionLink("KONTAKT", "About", "Home")</li>
+                </ul>
+                @*<div class="col-md-1">
+                        <a href="#" class="glyphicon glyphicon-user"></a>
+                        <a href="#" class="glyphicon glyphicon-log-in"></a>
+                </div>*@
+                <div>
+                    <ul class="nav navbar-nav navbar-right col-md-2">
+                        <li>@Html.ActionLink("Sign up", "SignUp", "Account", routeValues: null, htmlAttributes: new { id = "signUpLink" })</li>
+                        <li>@Html.ActionLink("Sign in", "SignIn", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                        <li>@Html.ActionLink("Sign out", "SignOut", "Account", routeValues: null, htmlAttributes: new { id = "logoutLink" })</li>
+                    
+                    </ul>
+                </div>
+            </nav>
+        <div class="container body-content">
+            <form class="col-lg-8" style="margin: 10px 10px 10px 10px ; padding-top: 80px;">
+
+                <div class="form-group">
+
+                    <input type="text" class="form-control" id="QueryInput" placeholder="enter search value" value="">
+                    <input type="submit" class="btn-primary form-control" style="margin:0px" id="submitSearchButton" value="SEARCH" />
+
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-sm-9" id="main-content">
+                   
+                    @RenderBody()
+                </div>
+                <div class="col-sm-3">
+                    <div class="advertisement">
+                        REKLAMA
+                    </div>
+                   
+                </div>
+            </div>
+
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
+        </div>
+        <script type="text/javascript" language="javascript">
+
+            var baseUrl = '@Url.Content("~/")';
+
+            $(document).ready(function () {
+                $.ajax({
+                    url: "@Url.Action("TitleIndex","Home")",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        var array = $.map(data, function (item) {
+                           return item.Title;
+                        });
+                      
+                        $("#QueryInput").autocomplete({
+                            source: array
+                        })
+                       
+                        
+                    }
+                   
+                });
+
+
+                $('#submitSearchButton').click(function () {
+                    $.ajax({
+                        url:  baseUrl + "Home/ShowResult?query=" + $('#QueryInput').val(),
+                        type: "GET",
+                        success: function (result) {
+                            $('#main-content').html(result);
+                        }
+                    });
+                    return false;
+                });
+            })
+        </script>
+
+    </div>
+</body>
+</html>

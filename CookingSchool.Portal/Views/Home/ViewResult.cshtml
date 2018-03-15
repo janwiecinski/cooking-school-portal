@@ -1,0 +1,24 @@
+﻿@model List<CookingSchool.Models.RecipeViewModel>
+
+@{
+    ViewBag.Title = "ViewResult";
+}
+
+<h2>ViewResult</h2>
+<h2>@ViewBag.Query</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><a href="@Url.Action("Details", "Recipes", new { id = item.Id })">@Html.DisplayName(item.Title)</a></td>
+            </tr>
+        }
+       
+    </tbody>
+</table>

@@ -1,0 +1,247 @@
+﻿body {
+    padding-top: 0px;
+    padding-bottom: 20px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+   
+   
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.carousel-inner {
+    height: 200px;
+}
+.background{
+    position:relative;
+    display:block;
+    background:none;
+    
+    }
+.background::after{
+    content:"";
+    background-repeat:repeat;
+    position:absolute;
+    opacity:0.1;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:-1;
+
+}
+
+
+
+#navbarMenu {
+    background-color: #333333;
+    display: inline-block;
+    width: 100%;
+    height: 80px;
+    z-index: 1000;
+    position: fixed;
+    padding: 0px 10% 0px 10%;
+    top: 0px;
+    left: 0px;
+}
+
+
+    #navbarMenu div {
+        height: auto;
+        background-color: #333333;
+        position: relative;
+    }
+    #navbarMenu div span {
+       
+        display:inline-flex;
+        width:60%;
+        margin:0px;
+        padding:25px 0px 25px 0px;
+        
+    }
+
+    #navbarMenu div span a {
+
+    font-size:small;
+    color:whitesmoke;
+    margin-top:5px;
+    flex-wrap:wrap;
+    float:right;
+    margin-left: 20%;
+
+}
+
+#navbarMenu div a:hover {
+
+    text-decoration:none;
+    
+    
+}
+    #navbarMenu div.navbar-header {
+        text-wrap:normal;
+        padding:0px;
+        display:inline-block;
+
+    }
+    div.navbar-header.col-md3 span{
+        width:70%;
+        text-wrap:normal;
+    }
+#navbarMenu div.col-md-2{
+    padding:0px;
+}
+
+#navbarMenu ul {
+    background-color: #333333;
+    overflow: hidden;
+    position: relative;
+    max-height:80px;
+}
+
+#navbarMenu ul li{
+
+    font-size:small;
+    padding:15px 0px 15px 0px;
+    width:20%;
+    
+}
+
+ 
+  #navbarMenu ul li a {
+    letter-spacing: 0;
+    text-decoration:none;
+    text-align:center;
+    color:whitesmoke;
+    border:none;
+}
+
+ #navbarMenu ul li a:hover,
+ #navbarMenu ul li a:active {
+  letter-spacing: 3px;
+}
+
+ #navbarMenu ul li a:after {
+  backface-visibility: hidden;
+  border: none;
+  bottom: 0px;
+  content: " ";
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  transition: all 280ms ease-in-out;
+  width: 0;
+}
+
+ #navbarMenu ul li a:hover:after {
+  border:1px solid whitesmoke;
+  backface-visibility: hidden;
+  border-color: #fff;
+  transition: width 350ms ease-in-out;
+  width: 70%;
+}
+
+ #navbarMenu ul li a:hover:before {
+  bottom: auto;
+  top: 0;
+  width: 70%;
+}
+
+
+        #loginIdCss.nav.navbar-nav.navbar-right {
+            float: right;
+        }
+    #loginIdCss.nav.navbar-nav.navbar-right li  {
+        padding:15px 0px 15px 0px;
+    }
+        #loginIdCss.nav.navbar-nav.navbar-right li:first-child {
+            width: 50%;
+        }
+        #loginIdCss.nav.navbar-nav.navbar-right li:last-child {
+            width: 50%;
+        }
+
+        #loginIdCss li a{
+            font-size:small;
+            margin:0px;
+            padding:10px 10px 10px 0px;
+        }
+
+        #logoID {
+
+            height:80px;
+            float:left;
+            width:30%;
+            min-height:50px;
+            min-width:50px;
+        }
+
+#QueryInput {
+    display: inline-block;
+    max-width: 70%;
+}
+
+#submitSearchButton {
+    display: inline-block;
+    max-width:25%;
+}
+
+.pnlOpis {
+    width: 50%;
+    height: 150px;
+    float: right;
+}
+
+.pnlOpis h6{
+    float:right;
+}
+
+.col-sm-3 {
+float:right;
+}
+
+ div.input-group.col-sm-12{
+
+     padding: 10px 0px 10px 0px;
+ }
+
+div.input-group-btn{
+    max-width:20%;
+    width:20%;
+    padding:20px;
+}
+button.btn.btn-default{
+    width:100%;
+    height:40px;
+    
+}
+
+.btn.btn-default.glyphicon.glyphicon-search{
+    font-family:"Helvetica Neue",Arial, Helvetica, sans-serif;
+}
+
+#recipeViewModel {
+    margin:0px;
+    padding:0px;
+}
+#recieImgContainer {
+    height: 100px;
+    width:120px;
+  
+}

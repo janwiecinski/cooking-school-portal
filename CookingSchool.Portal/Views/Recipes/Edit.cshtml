@@ -1,0 +1,130 @@
+﻿@model CookingSchool.Models.RecipeViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Recipe</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id, new { htmlAttributes = new { @Id = "modelId" } })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @Id = "modelTitle" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model =>model.Description, 10, 50, new  { @class = "form-control", @Id = "modelDescription" } )
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MealType, "MealType", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("MealType", null, htmlAttributes: new { @class = "form-control", @Id = "ddlMealType" })
+                @Html.ValidationMessageFor(model => model.MealType.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Author, "Author", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Author", null, htmlAttributes: new { @class = "form-control", @Id = "ddlAuthor" })
+                @Html.ValidationMessageFor(model => model.Author, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageId, "Image", htmlAttributes: new {@class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ImageId, new { type = "file",  @class = "col-md-4", @Id = "imageUploader" })
+                <input type="button" id="editImageUpload" class="btn-default" value="UPLOAD"/>
+            </div>
+            <div class="col-md-4">
+                <img id="recieImgContainer" src="" alt="Recipe does not contain image" class="col-md-4" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" id="btnSubmit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var data;
+        var recipeId = @Model.Id;
+        var formData = new FormData();
+        $('#recieImgContainer').attr("src", "@Url.Action("","images")/" + @Model.ImageId + "/thumbnail?width=140&height=120");
+
+        $('#editImageUpload').click(function () {
+
+            $.each($('#imageUploader')[0].files, function (i, file) {
+                formData.append('file-' + i, file);
+            });
+
+            $.ajax({
+                method: 'POST',
+                type: 'POST',
+                url:"@Url.Action("","images")",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    $('#recieImgContainer').attr("src", "@Url.Action("","images")/" + response.Id + "/thumbnail?width=140&height=120");
+
+                    data = { Id: recipeId, Title: $('#modelTitle').val(), Description: $('#modelDescription').text(), MealTypeId: $('#ddlMealType').val(), Author: $('#ddlAuthor').val(), ImageId:response.Id};
+
+                    console.log(data);
+
+                },
+                error: function (jqXHR, errorThrown) {
+                    console.log("jqXHR.status:");
+                    console.log(jqXHR.status);
+                    console.log("errorThrown:");
+                    console.log(jqXHR.status);
+                }
+            })
+            return false;
+        });
+
+        $('#btnSubmit').click(function () {
+            $.ajax({
+                method: 'POST',
+                url: '@Url.Action("Edit", "Recipes")',
+                data: data,
+                success: function () {
+                    window.location.href = '@Url.Action("RecipesList","recipes")';
+                },
+                error: function (jqXHR, errorThrown) {
+                    console.log("jqXHR.status:");
+                    console.log(jqXHR.status);
+                    console.log("errorThrown:");
+                    console.log(jqXHR.status);
+                }
+            });
+            return true;
+        });
+    })
+
+</script>

@@ -1,0 +1,20 @@
+﻿@model CookingSchool.Models.RecipeViewModel
+
+
+<div>
+    <a href="@Url.Action("Details","recipes")/@Model.Id" class="list-group-item col-md-12" style=" display:inline-block;" >
+        
+        <div class="col-md-4">
+            <img id="recieImgContainer" src="@Url.Action("","images")/@Model.ImageId/thumbnail?width=140&height=120" alt="Recipe does not contain image" class="col-md-4" />
+        </div>
+        <div id="recipeViewModel" class="col-md-8" >
+           
+            <h4>@Model.Title</h4>
+
+            <p>@Model.Description</p>
+
+            <h6>@Model.Author <span>@Model.CreatedOnUtc</span></h6>  @*selector*@
+
+        </div>
+    </a>
+ </div>

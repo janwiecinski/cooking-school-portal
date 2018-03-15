@@ -1,0 +1,100 @@
+﻿@model CookingSchool.Models.RecipeViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm("Create", "recipes"))
+{
+    //@Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Recipe</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2"  })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @Id = "txtTitle" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, 10, 50, new { @class = "form-control", @Id = "txtDescription"})
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MealType.Name, "MealType", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("MealType", null , htmlAttributes: new { @class = "form-control" , @Id = "ddlMealType"})
+                @Html.ValidationMessageFor(model => model.MealType.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    
+        <div class="form-group">
+            @Html.LabelFor(model => model.Author, "Author", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Author", null,  htmlAttributes : new { @class = "form-control", @id = "ddlAuthor" } )
+                @Html.ValidationMessageFor(model => model.Author, "", new { @class = "text-danger" })
+            </div>
+        </div>
+       
+        
+        <div class="form-group">
+
+            <div class="col-md-offset-2 col-md-10">
+
+                <input type="submit" name="BtnNext" value="Next" class="btn btn-default" />
+
+            </div>
+
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script type="text/javascript">
+
+    $('form').submit(function () {
+
+        var titleValue = $('#txtTitle').val();
+        var descriptionValue = $('#txtDescription').val();
+        var mealTypeValue = $('#ddlMealType').val();
+        var authorValue = $('#ddlAuthor').val();
+  
+       
+        sessionStorage.setItem("title", titleValue);
+        sessionStorage.setItem("description", descriptionValue);
+        sessionStorage.setItem("mealType", mealTypeValue);
+        sessionStorage.setItem("author", authorValue);
+        debugger;
+    });
+
+
+    function GetParameterName(name, url)
+    {
+        if (!url) url = window.location.href;
+
+        name = name.replace((/[\[\]]/g, "\\$&"));
+
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+
+        results = regex.exec(url);
+
+        if (!results) return null;
+
+        if (!results[2]) return '';
+
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+</script>
