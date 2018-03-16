@@ -31,7 +31,7 @@ namespace CookingSchool.Portal.Controllers
 
         public void SignOut()
         {
-            if (!Request.IsAuthenticated)
+            if (Request.IsAuthenticated)
             {
                 IEnumerable<AuthenticationDescription> authTypes =
                     HttpContext.GetOwinContext().Authentication.GetAuthenticationTypes();

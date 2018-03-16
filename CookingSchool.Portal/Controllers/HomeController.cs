@@ -76,6 +76,11 @@ namespace CookingSchool.Portal.Controllers
             return Json(recipesViewModel, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult About()
+        {
+            return View("About");
+        }
+
         public ActionResult Error(string message)
         {
             ViewData["error"] = message;
