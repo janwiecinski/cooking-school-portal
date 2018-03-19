@@ -24,9 +24,7 @@
                 </div>
                 <ul class="nav navbar-nav col-md-7">
                     <li>@Html.ActionLink("PRZEPISY", "RecipesList", "recipes")</li>
-                    @if (Request.IsAuthenticated)
-                    {
-                    }
+                   
                     <li>@Html.ActionLink("DODAJ", "Create", "recipes")</li>
                     <li>@Html.ActionLink("KONTAKT", "About", "Home")</li>
                 </ul>
@@ -36,9 +34,17 @@
                 </div>*@
                 <div>
                     <ul class="nav navbar-nav navbar-right col-md-2">
-                        <li>@Html.ActionLink("Sign up", "SignUp", "Account", routeValues: null, htmlAttributes: new { id = "signUpLink" })</li>
-                        <li>@Html.ActionLink("Sign in", "SignIn", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-                        <li>@Html.ActionLink("Sign out", "SignOut", "Account", routeValues: null, htmlAttributes: new { id = "logoutLink" })</li>
+                        
+                        @if (!Request.IsAuthenticated)
+                        {
+                            <li>@Html.ActionLink("Sign up", "SignUp", "Account", routeValues: null, htmlAttributes: new { id = "signUpLink" })</li>
+                            <li>@Html.ActionLink("Sign in", "SignIn", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                        }
+                        
+                        @if (Request.IsAuthenticated)
+                        {
+                            <li>@Html.ActionLink("Sign out", "SignOut", "Account", routeValues: null, htmlAttributes: new { id = "logoutLink" })</li>
+                        }
                     
                     </ul>
                 </div>
