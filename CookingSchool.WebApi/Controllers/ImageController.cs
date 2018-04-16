@@ -14,7 +14,6 @@ namespace CookingSchool.WebApi.Controllers
     public class ImageController : ApiController 
     {
         private IRepository<Image> _imageRepository;
-
         private IMapper _mapper;
 
 

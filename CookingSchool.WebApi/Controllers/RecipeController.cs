@@ -7,26 +7,26 @@ using CookingSchool.DAL.Models;
 using CookingSchool.Api.Models;
 using CookingSchool.WebApi.Models;
 using AutoMapper;
+using CookingSchool.WebApi.Utils;
 
 namespace CookingSchool.WebApi.Controllers
 {
     [RoutePrefix("recipes")]
-
+    [Authorize]
     public class RecipeController : ApiController
     {
         private IRepository<Recipe> _recipeRepository;
-
         private IMapper _mapper;
 
         public RecipeController(IRepository<Recipe> repository, IMapper  mapper)
         {
             _recipeRepository = repository;
-
             _mapper = mapper;
         }
 
         [HttpGet]
         [Route("")]
+        [AuthorizeScope("read")]
         public IHttpActionResult GetRecipes()
         {
             var recipes = _recipeRepository.GetAll();
@@ -36,11 +36,11 @@ namespace CookingSchool.WebApi.Controllers
             _mapper.Map(recipes, recipesDto);
 
             return Ok(recipesDto);
-
         }
 
         [HttpGet]
         [Route("id")]
+        [AuthorizeScope("read")]
         [ResponseType(typeof(IngredientDto))]
         public IHttpActionResult GetRecipe(int id)
         {
@@ -53,25 +53,25 @@ namespace CookingSchool.WebApi.Controllers
             _mapper.Map(recipe, dto);
 
             return Ok(dto);
-
         }
 
         [HttpDelete]
         [Route("")]
+        [AuthorizeScope("delete")]
         public IHttpActionResult DeleteRecipe(int id)
         {
             var recipe = _recipeRepository.GetById(id);
 
             _recipeRepository.Delete(recipe);
 
-            return Ok("Rekord Został usunięty");
+            return Ok();
         }
 
         [HttpPost]
         [Route("")]
+        [AuthorizeScope("write")]
         public IHttpActionResult PostRecipe(AddRecipeViewModel model)
         {
-
             var recipe = new Recipe { Title = model.Title, Description = model.Description };
 
             _recipeRepository.Add(recipe);
@@ -81,6 +81,7 @@ namespace CookingSchool.WebApi.Controllers
 
         [HttpPut]
         [Route("")]
+        [AuthorizeScope("write")]
         public IHttpActionResult UpdateRecipe(EditRecipeViewModel model)
         {
             var recipe = _recipeRepository.GetById(model.Id);
@@ -90,7 +91,7 @@ namespace CookingSchool.WebApi.Controllers
 
             _recipeRepository.Update(recipe);
 
-            return Ok($"You have updated {recipe.Title}");
+            return Ok();
         }
     }
 }

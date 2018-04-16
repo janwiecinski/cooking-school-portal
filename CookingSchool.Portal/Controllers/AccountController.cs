@@ -9,14 +9,23 @@ namespace CookingSchool.Portal.Controllers
     [RoutePrefix("account")]
     public class AccountController : Controller
     {
-       public void SignIn()
+
+        public string RedirectUri;
+       
+            public AccountController()
+        {
+          //  RedirectUri = HttpContext.Current.Server.MapPath();
+
+        }
+
+        public void SignIn()
         {
             // To execute a policy, you simply need to trigger an OWIN challenge.
             // You can indicate which policy to use by specifying the policy id as the AuthenticationType
             if (!Request.IsAuthenticated)
             {
                 System.Web.HttpContext.Current.GetOwinContext().Authentication.Challenge(
-                    new AuthenticationProperties() { RedirectUri = "/"}, Startup.defaultPolicy);
+                    new AuthenticationProperties() { RedirectUri = "/cookingschool" }, Startup.defaultPolicy);
             }
         }
 

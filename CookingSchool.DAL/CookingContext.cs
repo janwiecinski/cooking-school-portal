@@ -23,9 +23,6 @@ namespace CookingSchool.DAL
 
         public DbSet<Ingredient> Ingredients { get; set; }
 
-
-
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

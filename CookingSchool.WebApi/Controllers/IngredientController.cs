@@ -10,15 +10,13 @@ using CookingSchool.WebApi.Utils;
 using System.Threading.Tasks;
 
 namespace CookingSchool.WebApi.Controllers
-{   
+{
     [Authorize]
     [RoutePrefix("ingredients")]
     public class IngredientController : ApiController
     {
         private IRepository<Ingredient> _ingredientRepository;
-
         private IMapper _mapper;
-
         private IImageManager _imageManager;
 
         public IngredientController(IRepository<Ingredient> repository, IMapper mapper, IImageManager imageManager)
@@ -67,10 +65,8 @@ namespace CookingSchool.WebApi.Controllers
         public IHttpActionResult Post(AddIngredientViewModel model)
         {
             var ingredient = new Ingredient { Name = model.Name };
-
             _ingredientRepository.Add(ingredient);
-
-            return Json(ingredient.Id);
+            return Ok(ingredient);
         }
 
         [AuthorizeScope("delete")]
@@ -87,7 +83,7 @@ namespace CookingSchool.WebApi.Controllers
 
             _ingredientRepository.Delete(ingredient);
 
-            return Ok("Ingredient has been removed successfully");
+            return Ok();
         }
 
         [AuthorizeScope("write")]
@@ -101,7 +97,7 @@ namespace CookingSchool.WebApi.Controllers
 
             _ingredientRepository.Update(ingredient);
 
-            return Ok($"You have updated {ingredient.Name}");
+            return Ok(ingredient);
         }
 
         [HttpPost]

@@ -5,6 +5,9 @@ using System.IdentityModel.Tokens;
 using Microsoft.Owin.Security.OAuth;
 using Microsoft.Owin.Security.Jwt;
 using CookingSchool.WebApi.App_Start;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace CookingSchool.WebApi
 {
@@ -27,12 +30,14 @@ namespace CookingSchool.WebApi
                 // Accept only those tokens where the audience of the token is equal to the client ID of this app
                 ValidAudience = ClientId,
                 AuthenticationType = Startup.DefaultPolicy
+                
             };
+
 
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions
             {
                 // This SecurityTokenProvider fetches the Azure AD B2C metadata & signing keys from the OpenIDConnect metadata endpoint
-                AccessTokenFormat = new JwtFormat(tvps, new OpenIdConnectCachingSecurityTokenProvider(String.Format(AadInstance, Tenant, DefaultPolicy)))
+                AccessTokenFormat = new JwtFormat(tvps, new OpenIdConnectCachingSecurityTokenProvider(String.Format(AadInstance, Tenant, DefaultPolicy), new OpenIdConnectConfigurationRetriever()))
             });
         }
     }

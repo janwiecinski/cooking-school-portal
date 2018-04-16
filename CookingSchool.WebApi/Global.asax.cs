@@ -13,7 +13,7 @@ using CookingSchool.WebApi.Utils;
 
 namespace CookingSchool.WebApi
 {
-    public class WebApiApplication : System.Web.HttpApplication
+    public class WebApiApplication : HttpApplication
     {
         protected void Application_Start()
         {
@@ -43,7 +43,7 @@ namespace CookingSchool.WebApi
 
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
 
-            var mapperProvider = new Imapper(container);
+            var mapperProvider = new MapperProvider();
             container.RegisterSingleton(() => mapperProvider.GetMapper());
 
             container.Verify();

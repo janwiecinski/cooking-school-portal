@@ -1,5 +1,6 @@
 ﻿using CookingSchool.DAL.Models;
 using System;
+using System.Collections.Generic;
 
 namespace CookingSchool.Models
 {
@@ -13,9 +14,17 @@ namespace CookingSchool.Models
 
         public int? ImageId { get; set; }
 
+        public Image Image { get; set; }
+
+        public ICollection<Ingredient> Ingredients { get; set; }
+
         public DateTime CreatedOnUtc { get; set; }
 
-        public string Author { get; set; }
+        public DateTime ModifiedOnUtc { get; set; }
+
+        public int AuthorId { get; set; }
+
+        public Author Author { get; set; }
 
         public int MealTypeId { get; set; }
 

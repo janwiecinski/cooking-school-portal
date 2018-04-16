@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using CookingSchool.WebApi.Utils;
+using System.Web;
 using System.Web.Mvc;
 
 namespace CookingSchool.WebApi

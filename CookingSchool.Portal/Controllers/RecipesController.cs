@@ -7,85 +7,57 @@ using CookingSchool.DAL.Models;
 using CookingSchool.Portal.Models;
 using CookingSchool.DAL.Repositories;
 using System.Collections.Generic;
-using CookingSchool.ExtensionMethods;
-using System;
-using System.Threading.Tasks;
 using CookingSchool.Portal.Utils;
-using System.Web;
-using System.Net.Http;
+using AutoMapper;
+using System;
 
 namespace CookingSchool.Portal.Controllers
 {
     [RoutePrefix("recipes")]
     public class RecipesController : Controller
     {
-
+        private IMapper _mapper;
         private IRepository<Recipe> _repository;
         private IRepository<MealType> _mealRepository;
         private IRepository<Author> _authorRepository;
         private IImageManager _imageManager;
 
-        public RecipesController(IRepository<Recipe> repository, IRepository<MealType> mealRepository, IRepository<Author> authorRepository, IImageManager imageManager)
+        public RecipesController(IRepository<Recipe> repository, IRepository<MealType> mealRepository,
+            IRepository<Author> authorRepository, IImageManager imageManager, IMapper mapper)
         {
             _imageManager = imageManager;
             _repository = repository;
             _mealRepository = mealRepository;
             _authorRepository = authorRepository;
+            _mapper = mapper;
         }
 
         public ActionResult RecipesList(int? page)
         {
             var recipes = _repository.GetAll();
-
-            List<RecipeViewModel> recipesViewModel = new List<RecipeViewModel>();
-
-            foreach (var recipe in recipes)
-            {
-                var recipeViewModel = new RecipeViewModel();
-
-                recipeViewModel.Id = recipe.Id;
-                recipeViewModel.Title = recipe.Title;
-                recipeViewModel.Description = TruncateToWholeWords.Truncate(recipe.Description);
-                recipeViewModel.ImageId = recipe.ImageId;
-                recipeViewModel.CreatedOnUtc = recipe.CreatedOnUtc;
-                recipeViewModel.Author = recipe.Author.Name + " " + recipe.Author.Surname;
-
-                recipesViewModel.Add(recipeViewModel);
-            }
-
-            recipesViewModel.Reverse();
-
-            
+            var recipesViewModel = _mapper.Map<IEnumerable<Recipe>, IEnumerable<RecipeViewModel>>(recipes);
 
             var pager = new Pager(recipesViewModel.Count(), page);
 
             var viewModel = new PaginationViewModel
-            { Items = recipesViewModel.Skip((pager.CurrentPage-1)*pager.PageSize).Take(pager.PageSize).ToList(),
-              Pager = pager };
+            {
+                Items = recipesViewModel.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList(),
+                Pager = pager
+            };
 
-            return View(viewModel);
+            return View("RecipesList", viewModel);
         }
 
         // GET: Recipes
         public ActionResult Index(int? page)
         {
-
             var recipes = _repository.GetAll();
 
             var recipesViewModel = new List<RecipeViewModel>();
 
             foreach (var item in recipes)
             {
-                var recipeViewModel = new RecipeViewModel()
-                {
-                    Id = item.Id,
-                    Title = item.Title,
-                    Description = TruncateToWholeWords.Truncate(item.Description),
-                    CreatedOnUtc = item.CreatedOnUtc,
-                    Author = item.Author.Name + " " + item.Author.Surname,
-                    MealType = item.MealType,
-                    ImageId = item.ImageId
-                };
+                var recipeViewModel = _mapper.Map<Recipe, RecipeViewModel>(item);
 
                 recipesViewModel.Add(recipeViewModel);
 
@@ -97,33 +69,21 @@ namespace CookingSchool.Portal.Controllers
             return View(viewModel);
         }
 
-        // GET: Recipes/Details/5
-        public ActionResult Details(int? id)
+        [Route("details/{id}")]
+        public ActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             var recipe = _repository.GetById(id);
 
             if (recipe == null)
             {
                 return HttpNotFound();
             }
+            var modelViewRecipe = _mapper.Map<Recipe, RecipeViewModel>(recipe);
 
-            var modelViewRecipe = new RecipeViewModel();
-            modelViewRecipe.Id = recipe.Id;
-            modelViewRecipe.Author = recipe.Author.Name + ' ' + recipe.Author.Surname;
-            modelViewRecipe.Title = recipe.Title;
-            modelViewRecipe.Description = recipe.Description;
-            modelViewRecipe.MealType = recipe.MealType;
-            modelViewRecipe.CreatedOnUtc = recipe.CreatedOnUtc;
-
-
-            return View(modelViewRecipe);
+            return View("Details", modelViewRecipe);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public ActionResult Create()
         {
@@ -144,14 +104,7 @@ namespace CookingSchool.Portal.Controllers
         [HttpPost]
         public ActionResult CreateImage(RecipeViewModel model)
         {
-            var recipe = new Recipe
-            {
-                Title = model.Title,
-                Description = model.Description,
-                MealTypeId = model.MealTypeId,
-                ImageId = model.ImageId,
-                AuthorId = int.Parse(model.Author)
-            };
+            var recipe = _mapper.Map<RecipeViewModel, Recipe>(model);
 
             _repository.Add(recipe);
 
@@ -193,32 +146,20 @@ namespace CookingSchool.Portal.Controllers
             ViewData["MealType"] = new SelectList(mealTypes, "Id", "Name", theMealType);
             ViewData["Author"] = new SelectList(authorList, "Value", "Text", thisAuthor);
 
-            var modelViewRecipe = new RecipeViewModel();
-
-            modelViewRecipe.Id = recipe.Id;
-            modelViewRecipe.Author = recipe.Author.Name + ' ' + recipe.Author.Surname;
-            modelViewRecipe.Title = recipe.Title;
-            modelViewRecipe.Description = recipe.Description;
-            modelViewRecipe.MealType = recipe.MealType;
-            modelViewRecipe.CreatedOnUtc = recipe.CreatedOnUtc;
-            modelViewRecipe.ImageId = recipe.ImageId;
+            var modelViewRecipe = _mapper.Map<Recipe, RecipeViewModel>(recipe);
 
             return View(modelViewRecipe);
         }
 
         [HttpPost]
-        [Route ("{Id}")]
+        [Route("{Id}")]
         public ActionResult Edit(RecipeViewModel model)
         {
 
-            var recipe = _repository.GetById(model.Id);
+            var recipe = _mapper.Map<RecipeViewModel, Recipe>(model);
 
-            recipe.Title = model.Title;
-            recipe.Description = model.Description;
-            recipe.MealTypeId = model.MealTypeId;
-
-            recipe.AuthorId = int.Parse(model.Author);
-            recipe.ImageId = model.ImageId;
+            recipe.ModifiedOnUtc = DateTime.UtcNow;
+            recipe.CreatedOnUtc = DateTime.UtcNow;
 
             _repository.Update(recipe);
 

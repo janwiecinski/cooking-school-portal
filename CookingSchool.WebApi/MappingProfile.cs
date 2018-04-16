@@ -9,6 +9,7 @@ namespace CookingSchool.WebApi
         public MyProfile()
         {
             CreateMap<Author, AuthorDto>();
+            CreateMap<Author, EditAuthorViewModel>().ReverseMap();
             CreateMap<Recipe, RecipeDto>();
             CreateMap<Ingredient, IngredientDto>();
         }

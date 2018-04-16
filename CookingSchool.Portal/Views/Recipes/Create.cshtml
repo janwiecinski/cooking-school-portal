@@ -18,7 +18,7 @@
             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2"  })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @Id = "txtTitle" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Title, "Can not be empty", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -26,7 +26,7 @@
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.Description, 10, 50, new { @class = "form-control", @Id = "txtDescription"})
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Description, "Can not be empty", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -70,13 +70,17 @@
         var descriptionValue = $('#txtDescription').val();
         var mealTypeValue = $('#ddlMealType').val();
         var authorValue = $('#ddlAuthor').val();
-  
+
+        if (titleValue == "" || descriptionValue == "")
+        {
+            window.alert("You didn't input value");
+            return false;
+        }
        
         sessionStorage.setItem("title", titleValue);
         sessionStorage.setItem("description", descriptionValue);
         sessionStorage.setItem("mealType", mealTypeValue);
         sessionStorage.setItem("author", authorValue);
-        debugger;
     });
 
 

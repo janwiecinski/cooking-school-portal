@@ -11,15 +11,9 @@ using System.Reflection;
 using CookingSchool.Portal.Utils;
 using System.Web;
 using System.IO;
-using CookingSchool.Portal.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.DataHandler;
-using Microsoft.Owin.Security.DataProtection;
-using Microsoft.Owin.Security.DataHandler.Encoder;
-using Microsoft.Owin.Security.DataHandler.Serializer;
 using SimpleInjector.Integration.WebApi;
+using CookingSchool.Portal.Providers;
+using CookingSchool.Portal.App_Start;
 
 namespace CookingSchool.Portal
 {
@@ -35,12 +29,11 @@ namespace CookingSchool.Portal
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            MapperConfig.Config();
         }
 
         private void SetupContainer()
         {
-         
-
             var container = new Container();
 
             container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
@@ -51,14 +44,13 @@ namespace CookingSchool.Portal
             container.Register<IRepository<MealType>, GenericRepository<MealType>>(Lifestyle.Scoped);
             container.Register<IRepository<Image>, GenericRepository<Image>>(Lifestyle.Scoped);
             container.Register<IRepository<Author>, GenericRepository<Author>>(Lifestyle.Scoped);
-            //container.Register<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>(Lifestyle.Scoped);
-            //container.Register<ISecureDataFormat<AuthenticationTicket>, SecureDataFormat<AuthenticationTicket>>(Lifestyle.Scoped);
-            //container.Register<ITextEncoder, Base64UrlTextEncoder>(Lifestyle.Scoped);
-            //container.Register<IDataSerializer<AuthenticationTicket>, TicketSerializer>(Lifestyle.Scoped);
-            //container.Register<IDataProtector>(() => new DpapiDataProtectionProvider().Create("ASP.NET Identity"), Lifestyle.Scoped);
+            
 
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration, Assembly.GetExecutingAssembly());
+
+            var mapperProvider = new MapperProvider();
+            container.RegisterSingleton(() => mapperProvider.GetMapper());
 
             container.Verify();
             GlobalConfiguration.Configuration.DependencyResolver =new SimpleInjectorWebApiDependencyResolver(container);

@@ -34,8 +34,8 @@ namespace CookingSchool.Portal
 
         public void ConfigureAuth( IAppBuilder app)
         {
-            app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
             app.UseCookieAuthentication(new CookieAuthenticationOptions());
+            app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
             app.UseOpenIdConnectAuthentication(CreateOptionsFromPolicy(defaultPolicy));
         }
@@ -64,6 +64,7 @@ namespace CookingSchool.Portal
 
                 ClientId = clientId,
                 RedirectUri = redirectUri,
+                PostLogoutRedirectUri = redirectUri,
                 Notifications = new OpenIdConnectAuthenticationNotifications
                 {
                     AuthenticationFailed = AuthenticationFailed
@@ -75,8 +76,8 @@ namespace CookingSchool.Portal
                 // This piece is optional - it is used for displaying the user's name in the navigation bar.
                 TokenValidationParameters = new TokenValidationParameters
                 {
-                        NameClaimType = "name",
-                        SaveSigninToken = true //important to save the token in boostrapcontext
+                        //NameClaimType = "userName",
+                       // SaveSigninToken = true //important to save the token in boostrapcontext
                 }
                 
             };

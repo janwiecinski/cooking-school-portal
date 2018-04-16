@@ -35,7 +35,8 @@
 @foreach (var item in Model.Items) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem =>  item.Author)
+            @Html.DisplayFor(modelItem =>  item.Author.Name) 
+            @Html.DisplayFor(modelItem => item.Author.Surname)
         </td>
         <td>
             @*@Html.DisplayFor(modelItem => item.Image.Name)*@

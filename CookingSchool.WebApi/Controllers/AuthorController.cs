@@ -8,7 +8,7 @@ using CookingSchool.WebApi.Utils;
 
 namespace CookingSchool.WebApi.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [RoutePrefix("authors")]
     public class AuthorController : ApiController
     {
@@ -22,7 +22,7 @@ namespace CookingSchool.WebApi.Controllers
 
         [HttpGet]
         [Route("")]
-        //[AuthorizeScope("read")]
+        [AuthorizeScope("read")]
         public IHttpActionResult GetAuthors()
         {
             var authors = _authorRepository.GetAll();
@@ -36,7 +36,7 @@ namespace CookingSchool.WebApi.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        //[AuthorizeScope("read")]
+        [AuthorizeScope("read")]
         public IHttpActionResult GetAuthor(int id)
         {
             var author = _authorRepository.GetById(id);
@@ -50,7 +50,7 @@ namespace CookingSchool.WebApi.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        //[AuthorizeScope("write")]
+        [AuthorizeScope("write")]
         public IHttpActionResult DeleteAuthor(int id)
         {
             var ingredient = _authorRepository.GetById(id);
@@ -62,7 +62,7 @@ namespace CookingSchool.WebApi.Controllers
 
         [HttpPost]
         [Route ("")]
-        //[AuthorizeScope("write")]
+        [AuthorizeScope("write")]
         public IHttpActionResult Post(AddAuthorViewModel model)
         {
 
@@ -70,21 +70,21 @@ namespace CookingSchool.WebApi.Controllers
 
             _authorRepository.Add(author);
 
-            return Ok(author.Id);
+            return Ok(author);
         }
 
         [HttpPut]
         [Route("")]
-        //[AuthorizeScope("write")]
+        [AuthorizeScope("write")]
         public IHttpActionResult Update(EditAuthorViewModel model)
         {
             var author = _authorRepository.GetById(model.Id);
 
-            _mapper.Map(author, model);
+            _mapper.Map(model, author);
 
             _authorRepository.Update(author);
 
-            return Ok($"You have updated author {author.Name} {author.Surname}");
+            return Ok(author);
 
         }
 

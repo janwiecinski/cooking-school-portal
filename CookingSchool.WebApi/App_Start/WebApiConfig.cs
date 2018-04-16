@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using CookingSchool.WebApi.Utils;
+using System.Web.Http;
 using System.Web.Http.Cors;
 
 namespace CookingSchool.WebApi
@@ -23,6 +24,8 @@ namespace CookingSchool.WebApi
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Filters.Add(new ValidateModelAttribute());
         }
     }
 }

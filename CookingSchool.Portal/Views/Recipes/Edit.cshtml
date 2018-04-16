@@ -7,7 +7,7 @@
 <h2>Edit</h2>
 
 
-    @Html.AntiForgeryToken()
+    @*@Html.AntiForgeryToken()*@
     
     <div class="form-horizontal">
         <h4>Recipe</h4>
@@ -73,9 +73,8 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var data;
-        var recipeId = @Model.Id;
         var formData = new FormData();
-        $('#recieImgContainer').attr("src", "@Url.Action("","images")/" + @Model.ImageId + "/thumbnail?width=140&height=120");
+        $('#recieImgContainer').attr("src", "https://jw-cookingschool-portal.azurewebsites.net/images/@Model.ImageId/thumbnail?width=120&height=120");
 
         $('#editImageUpload').click(function () {
 
@@ -86,17 +85,14 @@
             $.ajax({
                 method: 'POST',
                 type: 'POST',
-                url:"@Url.Action("","images")",
+                url:"https://jw-cookingschool-portal.azurewebsites.net/images",
                 contentType: false,
                 processData: false,
                 data: formData,
                 success: function (response) {
-                    $('#recieImgContainer').attr("src", "@Url.Action("","images")/" + response.Id + "/thumbnail?width=140&height=120");
+                    $('#recieImgContainer').attr("src", "https://jw-cookingschool-portal.azurewebsites.net/images/" + response.Id + "/thumbnail?width=140&height=120");
 
-                    data = { Id: recipeId, Title: $('#modelTitle').val(), Description: $('#modelDescription').text(), MealTypeId: $('#ddlMealType').val(), Author: $('#ddlAuthor').val(), ImageId:response.Id};
-
-                    console.log(data);
-
+                    data = { Id: @Model.Id, Title: $('#modelTitle').val(), Description: $('#modelDescription').text(), MealTypeId: $('#ddlMealType').val(), AuthorId: $('#ddlAuthor').val(), ImageId:response.Id};
                 },
                 error: function (jqXHR, errorThrown) {
                     console.log("jqXHR.status:");
@@ -109,6 +105,11 @@
         });
 
         $('#btnSubmit').click(function () {
+            if (@Model.ImageId == null)
+            {
+                data = {Id: $('#modelId').val(), Title: $('#modelTitle').val(), Description: $('#modelDescription').text(), MealTypeId: $('#ddlMealType').val(), AuthorId: $('#ddlAuthor').val()};
+            }
+          
             $.ajax({
                 method: 'POST',
                 url: '@Url.Action("Edit", "Recipes")',
@@ -121,6 +122,7 @@
                     console.log(jqXHR.status);
                     console.log("errorThrown:");
                     console.log(jqXHR.status);
+                    debugger;
                 }
             });
             return true;
