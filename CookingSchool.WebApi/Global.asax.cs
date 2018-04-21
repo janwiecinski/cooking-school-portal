@@ -15,17 +15,24 @@ namespace CookingSchool.WebApi
 {
     public class WebApiApplication : HttpApplication
     {
+
         protected void Application_Start()
         {
+
             DirectorySetup();
             SetupContainer();
+
             AreaRegistration.RegisterAllAreas();
+
             GlobalConfiguration.Configure(WebApiConfig.Register);
+
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
             MapperConfig.Config();
-            
         }
 
         private void SetupContainer()
@@ -48,6 +55,7 @@ namespace CookingSchool.WebApi
 
             container.Verify();
 
+
             GlobalConfiguration.Configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
         }
 
@@ -60,6 +68,7 @@ namespace CookingSchool.WebApi
             if (!directory)
             {
                 Directory.CreateDirectory(path);
+
             }
         }
 
