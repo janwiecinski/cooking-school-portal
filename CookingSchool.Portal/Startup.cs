@@ -76,8 +76,8 @@ namespace CookingSchool.Portal
                 // This piece is optional - it is used for displaying the user's name in the navigation bar.
                 TokenValidationParameters = new TokenValidationParameters
                 {
-                        //NameClaimType = "userName",
-                       // SaveSigninToken = true //important to save the token in boostrapcontext
+                        NameClaimType = "userName",
+                       SaveSigninToken = true //important to save the token in boostrapcontext
                 }
                 
             };
