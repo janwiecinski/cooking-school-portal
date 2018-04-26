@@ -61,6 +61,12 @@ textarea {
     top: 0px;
     left: 0px;
 }
+@media (max-width:1045px) {
+
+    #navbarMenu {
+        padding: 0px;
+    }
+}
 
 
     #navbarMenu div {
@@ -82,10 +88,9 @@ textarea {
     font-size:small;
     color:whitesmoke;
     margin-top:5px;
-    flex-wrap:wrap;
+    flex-wrap:nowrap;
     float:right;
-    margin-left: 20%;
-
+    width:auto;
 }
 
 #navbarMenu div a:hover {
@@ -98,6 +103,7 @@ textarea {
         text-wrap:normal;
         padding:0px;
         display:inline-block;
+        width:220px;
 
     }
     div.navbar-header.col-md3 span{
@@ -120,9 +126,19 @@ textarea {
     font-size:small;
     padding:15px 0px 15px 0px;
     width:20%;
-    
 }
 
+@media (max-width:996px) {
+
+    #navbarMenu ul {
+        padding: 0px;
+        width: 50%;
+    }
+        #navbarMenu ul.nav.navbar-nav.navbar-right.col-md-2 {
+            width: 20%;
+        }
+       
+}
  
   #navbarMenu ul li a {
     letter-spacing: 0;
@@ -182,15 +198,16 @@ textarea {
             margin:0px;
             padding:10px 10px 10px 0px;
         }
+@media (max-width: 600px) {
 
-        #logoID {
-
-            height:80px;
-            float:left;
-            width:30%;
-            min-height:50px;
-            min-width:50px;
-        }
+     #logoID  {
+        display: none;
+    }
+}
+#logoID {
+    float: left;
+    max-height: -webkit-fill-available;
+}
 
 #QueryInput {
     display: inline-block;
