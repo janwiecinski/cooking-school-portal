@@ -64,9 +64,13 @@ namespace CookingSchool.Portal.Controllers
             }
             var pager = new Pager(recipesViewModel.Count(), page);
 
-            var viewModel = new PaginationViewModel { Items = recipesViewModel, Pager = pager };
+            var viewModel = new PaginationViewModel
+            {
+                Items = recipesViewModel.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList(),
+                Pager = pager
+            };
 
-            return View(viewModel);
+            return View("Index", viewModel);
         }
 
         [Route("details/{id}")]
@@ -119,32 +123,18 @@ namespace CookingSchool.Portal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var mealTypes = _mealRepository.GetAll();
-            var authors = _authorRepository.GetAll();
 
             var recipe = _repository.GetById(id);
 
-            var thisAuthor = recipe.Author.Id;
-            var theMealType = (from m in mealTypes
-                               where m.Id == recipe.MealType.Id
-                               select m.Id).First();
+          
 
             if (recipe == null)
             {
                 return HttpNotFound();
             }
 
-            var authorList = new List<SelectListItem>();
-
-            foreach (var item in authors)
-            {
-                var text = item.Surname + " " + item.Name;
-                var value = item.Id;
-                authorList.Add(new SelectListItem { Text = text, Value = value.ToString() });
-            }
-
-            ViewData["MealType"] = new SelectList(mealTypes, "Id", "Name", theMealType);
-            ViewData["Author"] = new SelectList(authorList, "Value", "Text", thisAuthor);
+            AuthorListFill();
+            MealTypeFill();
 
             var modelViewRecipe = _mapper.Map<Recipe, RecipeViewModel>(recipe);
 
