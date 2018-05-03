@@ -20,15 +20,15 @@
             <nav class="nav navbar-inverse col-md-10" id="navbarMenu">
                 <div class="navbar-header col-md-3">
                     <img alt="LogoStrony" id="logoID" src="~/image/illustration-gastronomy.png" />
-                    <span>@Html.ActionLink("KURS GOTOWANIA", "Index", "Home")</span>
+                    <span>@Html.ActionLink("Cooking School", "Index", "Home")</span>
                 </div>
                 <ul class="nav navbar-nav col-md-7">
-                    <li>@Html.ActionLink("PRZEPISY", "RecipesList", "recipes")</li>
+                    <li>@Html.ActionLink("RECIPES", "RecipesList", "recipes")</li>
                    @if (User.Identity.IsAuthenticated)
                    {
-                    <li>@Html.ActionLink("DODAJ", "Create", "recipes")</li>
+                    <li>@Html.ActionLink("ADD RECIPE", "Create", "recipes")</li>
                    }
-                    <li>@Html.ActionLink("KONTAKT", "About", "Home")</li>
+                    <li>@Html.ActionLink("CONTACT", "Index", "About")</li>
                 </ul>
                 @*<div class="col-md-1">
                         <a href="#" class="glyphicon glyphicon-user"></a>
