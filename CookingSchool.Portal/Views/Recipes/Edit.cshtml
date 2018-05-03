@@ -92,7 +92,6 @@
                 processData: false,
                 data: formData,
                 success: function (response) {
-                    debugger;
                     $('#recieImgContainer').attr("src", "https://jw-cookingschool-portal.azurewebsites.net/images/" + response.Id + "/thumbnail?width=140&height=120");
 
                     data = { Id: @Model.Id, Title: $('#modelTitle').val(), Description: $('#modelDescription').text(), MealTypeId: $('#ddlMealType').val(), AuthorId: $('#ddlAuthor').val(), ImageId: response.Id };
@@ -109,15 +108,14 @@
         });
 
         $('#btnSubmit').click(function () {
-            debugger;
-           
+            var modelImg = @Model.ImageId;
             if (imageId != null)
             {
             data = { Id: @Model.Id, Title: $('#modelTitle').val(), Description: $('#modelDescription').text(), MealTypeId: $('#ddlMealType').val(), AuthorId: $('#ddlAuthor').val(), ImageId: imageId };
             }
             else
             {
-            data = { Id: @Model.Id, Title: $('#modelTitle').val(), Description: $('#modelDescription').text(), MealTypeId: $('#ddlMealType').val(), AuthorId: $('#ddlAuthor').val(), ImageId: @Model.ImageId};
+            data = { Id: @Model.Id, Title: $('#modelTitle').val(), Description: $('#modelDescription').text(), MealTypeId: $('#ddlMealType').val(), AuthorId: $('#ddlAuthor').val(), ImageId: modelImg};
             }
                $.ajax({
                 method: 'POST',

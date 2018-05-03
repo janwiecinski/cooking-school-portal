@@ -313,7 +313,10 @@ textarea {
         padding: 0px;
     }
 
-    #recieImgContainer {
-        height: 100px;
-        width: 120px;
-    }
+#recieImgContainer {
+    height: auto;
+    width: auto;
+    border: 2px none ;
+    padding: 10px;
+    border-radius: 50px 20px;
+}
