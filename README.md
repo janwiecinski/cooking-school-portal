@@ -18,4 +18,5 @@ https://jw-cookingschool-api.azurewebsites.net
 4. CookingSchool.WebApi –Web API 2 type application. It mediates between frontend applications (cooking-school-admin Angular 4 application) and CookingSchool.DAL layer. It has no connection to portal application. Api Controllers have Generic Repository objects for each model injected. For dependency injection there is SimpleInjector used. AutoMapper is used for data mapping. Application uses token authentication mode with Azure AD B2C. It is hosted on Azure Cloud as App Service.
 
 
+[Contribution guidelines for this project]( cooking-school-portal/DataFlowDiagram.png)
 
