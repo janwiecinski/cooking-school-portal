@@ -29,7 +29,7 @@ namespace CookingSchool.Portal.Controllers
                     MailMessage msz = new MailMessage();
                     msz.From = new MailAddress(model.Email);
 
-                    msz.To.Add("janwiecisnki1985@gmail.com");
+                    msz.To.Add("janwiecinski1985@gmail.com");
                     msz.Subject = model.Subject;
                     msz.Body = model.Message;
 
