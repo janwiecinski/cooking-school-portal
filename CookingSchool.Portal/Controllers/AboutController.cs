@@ -11,8 +11,6 @@ namespace CookingSchool.Portal.Controllers
         // GET: About
         public ActionResult Index()
         {
-            var str = ConfigurationManager.AppSettings["apiGoogleMap"];
-            ViewData["apiGoogle"] = str;
             return View("About");
         }
 
@@ -42,13 +40,12 @@ namespace CookingSchool.Portal.Controllers
                     smtp.Send(msz);
 
                     ModelState.Clear();
-                    ViewBag.Title = "Thank You for Contacting us ";
-                    return View("About");
                 }
                 catch(Exception ex)
                 {
                     ModelState.Clear();
-                    ViewBag.Message = $" Sorry we are facing Problem here {ex.Message}";
+                    throw new Exception(ex.ToString());
+
                 }
             }
             return View("About");
