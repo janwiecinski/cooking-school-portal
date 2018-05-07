@@ -11,7 +11,6 @@ namespace CookingSchool.Portal.Controllers
         // GET: About
         public ActionResult Index()
         {
-            ViewData["pass"] = ConfigurationManager.AppSettings["emailPass"];
             return View("About");
         }
 
