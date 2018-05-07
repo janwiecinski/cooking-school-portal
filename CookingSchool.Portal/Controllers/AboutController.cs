@@ -19,7 +19,7 @@ namespace CookingSchool.Portal.Controllers
         {
             if (ModelState.IsValid)
             {
-                 string pass = ConfigurationManager.AppSettings["emailPass"];
+                string pass = Environment.GetEnvironmentVariable("emailPass");
                 
                 try
                 {
