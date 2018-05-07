@@ -10,8 +10,9 @@
 <div class="col-md-6">
     <div>
         @if (ViewBag.Message == null)
-            {
+        {
             <div>
+                <p>@ViewData["pass"]</p>
               @using (Html.BeginForm("SendContactMessage", "About"))
               {
                 <div class="form-group">

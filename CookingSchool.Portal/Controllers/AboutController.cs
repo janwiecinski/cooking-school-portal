@@ -11,6 +11,7 @@ namespace CookingSchool.Portal.Controllers
         // GET: About
         public ActionResult Index()
         {
+            ViewData["pass"] = ConfigurationManager.AppSettings["emailPass"];
             return View("About");
         }
 
@@ -19,7 +20,7 @@ namespace CookingSchool.Portal.Controllers
         {
             if (ModelState.IsValid)
             {
-                string pass = Environment.GetEnvironmentVariable("emailPass");
+                 string pass = ConfigurationManager.AppSettings["emailPass"];
                 
                 try
                 {
